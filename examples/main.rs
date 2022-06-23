@@ -1,3 +1,5 @@
+use std::f64::MAX;
+
 use rand_core::OsRng;
 
 use suter_proofs::confidential::ConfidentialTransaction;
@@ -8,7 +10,8 @@ fn main() {
     let mut csprng = OsRng;
     let sender_sk = SecretKey::generate_with(&mut csprng);
     let sender_pk = sender_sk.to_public();
-    let receiver_initial_balances: Vec<u64> = vec![1, 10, 100];
+    let max_32 = u64::from(std::u16::MAX);
+    let receiver_initial_balances: Vec<u64> = vec![1, 67108864, 100];
     let transaction_values: Vec<u64> = vec![8, 88, 888];
     let receivers_info: Vec<_> = receiver_initial_balances
         .iter()
@@ -27,6 +30,7 @@ fn main() {
         .collect();
     let sender_final_balance = 10000u64;
     let transferred: u64 = transaction_values.iter().sum();
+    println!("transferred:{}",transferred);
     let sender_initial_balance: u64 = sender_final_balance + transferred;
     let sender_initial_encrypted_balance = sender_initial_balance.encrypt_with(sender_pk);
     let transfers: Vec<(PublicKey, u64)> = receivers_info
@@ -53,6 +57,8 @@ fn main() {
         &receivers_info.iter().map(|x| (x.3)).collect::<Vec<_>>(),
     );
     for (i, sk) in receivers_info.iter().map(|x| (&x.0)).enumerate() {
+        println!("++++++\n{:?}\n++++++准备解密：",receiver_final_encrypted_balances[i]);
+        println!("{:?}",u64::try_decrypt_from(sk, receiver_final_encrypted_balances[i]).unwrap());
         assert_eq!(
             receivers_info[i].2 + &transaction_values[i],
             u64::try_decrypt_from(sk, receiver_final_encrypted_balances[i]).unwrap()

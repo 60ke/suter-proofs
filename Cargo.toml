@@ -17,7 +17,7 @@ zkp = "0.7.0"
 sha2 = "0.8.1"
 serde = "1.0.104"
 clear_on_drop = "0.2.3"
-bulletproofs = { git = "https://github.com/suterusu-team/bulletproofs.git", rev = "main" }
+bulletproofs = {path="./bulletproofs" }
 merlin = "2.0.0"
 lazy_static = "1.4.0"
 anyhow = "1.0.26"
