@@ -575,6 +575,9 @@ impl<A: Amount> ConfidentialTransaction for Transaction<A> {
         self.verify_num_of_transfers()?;
 
         let mut verifier_transcript = Transcript::new(MERLIN_CONFIDENTIAL_TRANSACTION_LABEL);
+        println!("生成proof:\"proof.txt\",长度为: {:?}kb\n",bincode::serialize(&self.proof).unwrap().len()/1000);
+        std::fs::write("./proof.txt", hex::encode(bincode::serialize(&self.proof).unwrap()));
+        
         match &self.proof {
             Proof::Zether(proof) => {
                 if self.num_of_transfers_for_verification() != 1 {
