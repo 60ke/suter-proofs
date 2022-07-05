@@ -17,21 +17,22 @@ fn test(a:u64,b:u64){
     let ctx1 = a.encrypt_with(sender_pk);
     println!("获取加密结果ctx1");
     let elapsed = start.elapsed();
-    println!("用时{}秒",elapsed.as_secs()); 
+    println!("用时{}秒\n",elapsed.as_secs()); 
 
     println!("准备加密数字{}",b);
     let start = Instant::now();
     let ctx2 = b.encrypt_with(sender_pk);
     println!("获取加密结果ctx2");
     let elapsed = start.elapsed();
-    println!("用时{}秒",elapsed.as_secs());
+    println!("用时{}秒\n",elapsed.as_secs());
     
     println!("准备计算{}+{}",a,b);
     let start = Instant::now();
     let ctx3 = ctx1 + ctx2;
     let elapsed = start.elapsed();
-    println!("用时{}秒",elapsed.as_secs());
     println!("获取结果ctx3");
+    println!("用时{}秒\n",elapsed.as_secs());
+    
 
 
     println!("准备解密ctx3");
@@ -39,7 +40,7 @@ fn test(a:u64,b:u64){
     let decrypted = u64::try_decrypt_from(&sender_sk,ctx3).unwrap();
     let elapsed = start.elapsed();
     println!("获取解密结果:{:?}",decrypted);    
-    println!("用时{}秒",elapsed.as_secs());
+    println!("用时{}秒\n",elapsed.as_secs());
 
 }
 
