@@ -11,7 +11,6 @@ fn test(a:u64,b:u64){
     let mut csprng = OsRng;
     let sender_sk = SecretKey::generate_with(&mut csprng);
     let sender_pk = sender_sk.to_public();
-    println!("测试suter_proof加密:\n");
     println!("准备加密数字{}",a);
     let start = Instant::now();
     let ctx1 = a.encrypt_with(sender_pk);
@@ -46,6 +45,7 @@ fn test(a:u64,b:u64){
 
 
 fn main() {
+    println!("测试suter_proof加密:\n");
     test(1,2);
     test(1<<15, 1<<15);
     test(1<<26, 1<<25);
